@@ -45,7 +45,10 @@ jobs:
           script: |
             gradle connectedDebugAndroidTest --stacktrace
             mkdir -p artifacts
-            adb pull /sdcard/Android/data/uz.attestation.excel/files/preview.png artifacts/preview.png
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
+            adb shell am start -W -n uz.attestation.excel/.MainActivity
+            sleep 2
+            adb exec-out screencap -p > artifacts/preview.png
       - name: Prepare download
         run: |
           mkdir -p artifacts
